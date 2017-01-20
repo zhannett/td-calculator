@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Loan Calculator</title>
+        <!-- Bootstrap -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/app.css" rel="stylesheet">
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="js/html5shiv.min.js"></script>
+            <script src="js/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <div ng-app="CalculatorApp" class="page">
+            <h1 class="text-center">Calculate how much your monthly payments could be</h1>
+            <div ng-controller="CalculatorController" class="content">
+                <form>
+                    <fieldset>
+                        <div class="col-xs-12 col-sm-6 left-column">
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-8"><label for="loan">Amount to borrow</label></div>
+                                <div class="input-group col-xs-5 col-sm-4 pull-right">
+                                    <span class="input-group-addon">$</span>
+                                    <input ng-model="loan" id="loan" name="loan" maxlength="10" class="form-control text-right input" ng-style="custominput" required />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-8"><label for="interest">Interest rate</label></div>
+                                <div class="input-group col-xs-5 col-sm-4 pull-right">
+                                    <input type="number" id="interest" name="interest" ng-model="interest" maxlength="5" min="0.00" max="99.99" step="0.01" class="form-control text-right addon-right input interest" ng-style="custominput" required />
+                                    <span class="input-group-addon">%</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6"><label for="duration">Pay it off in</label></div>
+                                <div class="col-xs-6 text-right">
+                                    <input type="number" id="duration" name="duration" ng-model="duration" class="text-right payoff" required />
+                                    <span>months</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <input type="range" ng-model="duration" min="6" max="72" step="1" />
+                                <div class="col-xs-6 ">6 months</div>
+                                <div class="col-xs-6 text-right">72 months</div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 text-center right-column">
+                            <p class="center">Based on what you entered, your monthly payment could be</p>
+                            <div class="payment">{{calculateMonthlyPayment() | currency}}</div>
+                            <button ng-click="calculateMonthlyPayment()">Get started</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        <script src="js/jquery-1.12.4.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/angular-1.6.1.min.js"></script>
+        <script src="js/jquery.priceformat.min.js"></script>
+        <script src="js/jquery.mask.min.js"></script>
+        <script src="js/app.js"></script>
+        <script>
+            $(document).ready(function () {
+                $("#loan").priceFormat({
+                    prefix: "",
+                    thousandsSeparator: ",",
+                    centsLimit: 0
+                });
+                $('#interest').mask('00.00', {reverse: true});
+            });
+        </script>
+    </body>
+</html>
